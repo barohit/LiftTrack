@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+    Welcome <%= profile.name %> <br> 
+    
+    Here are your current capabilities for each of your exercises: 
+    <% for (var i = 0; i < profile.exercise_group_list.length; i++) { %>
+        <li class="exercisegroupheadline"> <%= profile.exercise_group_list[i].muscle_group %> </li>
+            
+            <table> 
+                <form action="http://localhost:3000/updateexercises" method="POST"> 
+                    <% for (var j = 0; j < profile.exercise_group_list[i].exercises.length; j++) {%>
+                    <tr> 
+                        <td> <%= profile.exercise_group_list[i].exercises[j].name %> </td> 
+                        <td> <%= profile.exercise_group_list[i].exercises[j].weight %> 
+                                <input name="updateweight"> 
+                        </td>
+                        <td> <%= profile.exercise_group_list[i].exercises[j].reps %> 
+                                <input name="updatereps">
+                        </td>
+                        <td> 
+                            <input name="update" type="submit">
+                        </td>
+                    </tr>
+                    <input type="hidden" name="username" value="<%= profile.username %>">
+                    <input type="hidden" name="muscle_group" value="<%= profile.exercise_group_list[i].muscle_group %>">
+                    <input type="hidden" name="name" value="<%= profile.exercise_group_list[i].exercises[j].name %>">
+                    <% } %>
+                    
+                </form>
+                <form action="http://localhost:3000/addExercise" method="POST">
+                    <tr>
+                        <td> Add <%= profile.exercise_group_list[i].muscle_group %> exercise: </td>
+                        <td> Exercise name: <input name="newname"> </td>
+                        <td> Reps: <input name="reps"> </td>
+                        <td> Weight: <input name="weight"> </td>
+                        <td> <input type="submit"> </td> 
+                    </tr>
+                    <input type="hidden" name="username" value=<%= profile.username %>>
+                    <input type="hidden" name="muscle_group" value=<%= profile.exercise_group_list[i].muscle_group %>>
+                </form>
+            </table>
+            <br>
+        <% } %>
+</body>
+</html>

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lifeTrack
+  labels:
+    app: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+       —name: lifeTrack
+          image: #insert the path to the container registry here. 
+          ports:
+           —containerPort: 3000
+      - name: mongoDB
+          image: #insert the path to the mongo image here. 
+          ports: 
+            -containerPort: 27017
+      - name: mysql
+          image: #insert path to mysql image here. 
+          ports: 
+            -containerPort: 3306
+        

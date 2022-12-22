@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+        <h1> Registration Page </h1>
+
+        <p> Please enter your personal details and then click submit</p>
+        <form action="http://localhost:3000/register" onsubmit="return validateRegister()" method="POST">
+            <label> First Name: <input name="firstname"> <br>
+            <label> Last Name: <input name="lastname"> <br>
+            <label> Date of Birth (please enter in yyyy-mm-dd format): <input name="dateofbirth"> <br>
+            <label> Username: (must start with a letter) <input name="username"> <br>
+            <label> Password: (must contain one uppercase letter, one lowercase letter, one special character(!@#$%^&*), and one number) <input name="password"> <br>
+            <input type="submit">
+        </form> 
+        <p id="error" style="visibility: hidden; color: red; font-size: small;"> Sorry, but some of the fields are either blank, or have entries that are either too long or too short.</p> <br>
+        <p id="error2" style="visibility: hidden; color: red; font-size: small;"> Sorry, but username must begin with a letter. </p> <br>
+        <p id="error3" style="visibility: hidden; color: red; font-size: small;"> Sorry, but password must contain at least one uppercase letter, one lowercase letter, one special character, and one number. </p> <br>
+        <p id="error4" style="visibility: hidden; color: red; font-size: small;"> Sorry, but date of birth must be in the format yyyy-mm-dd </p> <br>
+
+</body>
+</html>
+
+<script> 
+    function validateRegister() {
+        firstName = document.getElementsByName('firstname')[0].value
+        lastName = document.getElementsByName('lastname')[0].value
+        dateOfBirth = document.getElementsByName('dateofbirth')[0].value
+        username = document.getElementsByName('username')[0].value
+        password = document.getElementsByName('password')[0].value
+        anyLetter = RegExp(/[a-zA-Z]/)
+        anyUpperCase = RegExp(/[A-Z]/)
+        anyLowerCase = RegExp(/[a-z]/)
+        anyNumber = RegExp(/[0-9]/)
+        anySpecialChar = RegExp(/[!@#$%^&*]/)
+        dobReg = RegExp(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)
+
+        if (firstName.length > 30 || firstName.length == 0 || lastName.length > 30 || lastName.length == 0 || username.length < 5 || username.length > 30 || password.length < 8 || password.length > 30) {
+            document.getElementById("error").style.visibility = "visible"
+            return false; 
+        }
+
+        if(!dobReg.test(dateOfBirth)) {
+            document.getElementById("error4").style.visibility = "visible"
+            return false; 
+        }
+
+        if (!anyLetter.test(username.charAt(0))) {
+            document.getElementById("error2").style.visibility = "visible"
+            return false
+        }
+       
+
+        containsUppercaseLetter = false; 
+        containsLowercaseLetter = false; 
+        containsNumber = false; 
+        containsSpecialCharacter = false; 
+
+        for (let i = 0; i < password.length; i++) {
+            curr = password.charAt(i)
+            if (!containsUppercaseLetter) {
+                if (anyUpperCase.test(curr)) {
+                    containsUppercaseLetter = true; 
+                }
+            }
+            if (!containsLowercaseLetter) {
+                if (anyLowerCase.test(curr)) {
+                    containsLowercaseLetter = true; 
+                }
+            }
+            if (!containsNumber) {
+                if (anyNumber.test(curr)) {
+                    containsNumber = true; 
+                }
+            }
+            if (!containsSpecialCharacter) {
+                if (anySpecialChar.test(curr)) {
+                    containsSpecialCharacter = true; 
+                }
+            }
+        }
+        if (!(containsLowercaseLetter && containsNumber && containsUppercaseLetter && containsSpecialCharacter)) {
+            document.getElementById("error3").style.visibility = "visible"
+            return false; 
+        }
+        return true; 
+
+    }
+</script>
